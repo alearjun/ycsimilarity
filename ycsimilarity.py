@@ -71,7 +71,7 @@ def complete(prompt, openai_api_key):
              You should respond with a list of companies, their batch, a short description, and their websites. Always follow the following format:
              
              The following YC companies may be similar: 
-             * {Company Name} Batch: {batch}
+             * {Company Name} (Batch: {batch})
              {Description}
              * {insert the list of companies here}
              """},
