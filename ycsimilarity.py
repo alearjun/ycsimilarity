@@ -14,7 +14,6 @@ index_name = 'yc-companies'
 index = pc.Index(index_name)
 
 # OpenAI setup
-openai.api_key = openai_api_key
 embed_model = "text-embedding-ada-002"
 
 # Function to retrieve context
