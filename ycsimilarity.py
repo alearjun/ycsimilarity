@@ -42,7 +42,7 @@ def retrieve(query, openai_api_key):
         return "No contexts retrieved. Try to answer the question yourself!"
 
     prompt_start = "Answer the question based on the context below. \n\nContext:\n"
-    prompt_end = f"\n\nQuestion: What are companies that may be similar to{query}? \nAnswer:"
+    prompt_end = f"\n\nQuestion: What are YC companies that are involved in {query}? \nAnswer:"
 
     for i in range(1, len(contexts)):
         if len("\n\n---\n\n".join(contexts[:i])) >= 6000:
@@ -67,7 +67,14 @@ def complete(prompt, openai_api_key):
         stop=None,
         messages=[
             {"role": "system", 
-             "content": "You are a helpful assistant that describes companies that are similar to the user enterred description."},
+             "content": """You are a helpful assistant that describes companies that may be similar to a concept that the user enterred. 
+             You should respond with a list of companies, their batch, a short description, and their websites. Always follow the following format:
+             
+             The following YC companies may be similar: 
+             * {Company Name} Batch: {batch}
+             {Description}
+             * {insert the list of companies here}
+             """},
             {"role": "user", "content": prompt}
         ]
     )
