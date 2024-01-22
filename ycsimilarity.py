@@ -68,7 +68,8 @@ def complete(prompt, openai_api_key):
         messages=[
             {"role": "system", 
              "content": """You are a helpful assistant that describes companies that may be similar to a concept that the user enterred. 
-             You should respond with a list of companies, their batch, a short description, and their websites. Always follow the following format:
+             You should respond with a list of companies, their batch, a short description, and their websites. You must always include these four details 
+             for each company. lways follow the following format and do not add any text after the list: 
              
              The following YC companies may be similar: 
              * {Company Name} (Batch: {batch})
