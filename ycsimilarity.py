@@ -5,7 +5,6 @@ import time
 import os
 
 pinecone_api_key = st.secrets["PINECONE_API_KEY"]
-openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 # Pinecone setup
 
@@ -19,11 +18,15 @@ openai.api_key = openai_api_key
 embed_model = "text-embedding-ada-002"
 
 # Function to retrieve context
-def retrieve(query):
+def retrieve(query, openai_api_key):
+    
+    openai.api_key = openai_api_key
+
     res = openai.embeddings.create(
         input=[query],
         model=embed_model
     )
+
 
     xq = res.data[0].embedding
     contexts = []
@@ -51,9 +54,12 @@ def retrieve(query):
     return prompt
 
 # Function to generate completion
-def complete(prompt):
+def complete(prompt, openai_api_key):
+
+    openai.api_key = openai_api_key
+
     res = openai.chat.completions.create(
-        model='gpt-4-1106-preview',
+        model='gpt-3.5-turbo',
         temperature=0,
         max_tokens=1500,
         top_p=1,
@@ -70,13 +76,17 @@ def complete(prompt):
 
 # Streamlit UI
 st.title('YC Company Lookup')
+
+st.write("Enter your OpenAI API Key:")
+user_openai_api_key = st.text_input("OpenAI API Key", type="password")
+
 user_query = st.text_input("Enter company details:")
 
 if st.button('Submit'):
-    if user_query:
-        prompt = retrieve(user_query)
-        response = complete(prompt)
+    if user_query and user_openai_api_key:
+        prompt = retrieve(user_query, user_openai_api_key)
+        response = complete(prompt, user_openai_api_key)
         st.text("Response:")
         st.write(response)
     else:
-        st.write("Please enter a question to get an answer.")
+        st.write("Please enter both an OpenAI API Key and company details.")
