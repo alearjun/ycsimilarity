@@ -58,7 +58,7 @@ def complete(prompt, openai_api_key):
     openai.api_key = openai_api_key
 
     res = openai.chat.completions.create(
-        model='gpt-3.5-turbo',
+        model='gpt-4',
         temperature=0,
         max_tokens=1500,
         top_p=1,
